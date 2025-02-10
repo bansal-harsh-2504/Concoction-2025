@@ -11,9 +11,8 @@ export const register = async (req, res) => {
         success: false,
       });
     }
-    
-    const userId = req.id;
-    let user = await User.findById(userId);
+
+    let user = await User.findOne({ email });
 
     if (user) {
       return res.status(400).json({
@@ -25,13 +24,13 @@ export const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    await User.create({
+    user = await User.create({
       email,
       password: hashedPassword,
       role,
     });
 
-    const token = jwt.sign({ userId }, process.env.SECRET_KEY, {
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
 
@@ -39,6 +38,7 @@ export const register = async (req, res) => {
       message: "Account created successfully",
       success: true,
       token,
+      userId: user._id,
     });
   } catch (err) {
     console.log("Error in user sign in controller. Error: ", err);
@@ -84,11 +84,6 @@ export const login = async (req, res) => {
     const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
-    user = {
-      _id: user._id,
-      email: user.email,
-      role: user.role,
-    };
 
     return res
       .status(200)
@@ -100,7 +95,7 @@ export const login = async (req, res) => {
       .json({
         message: `Welcome back ${user.fullName}`,
         token,
-        user,
+        userId: user._id,
         success: true,
       });
   } catch (err) {
@@ -125,11 +120,4 @@ export const logout = async (req, res) => {
       success: false,
     });
   }
-};
-
-export const getLoggedInStatus = async (req, res) => {
-  return res.status(200).json({
-    message: "User is LoggedIn",
-    success: true,
-  });
 };

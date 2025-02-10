@@ -1,3 +1,3 @@
 import userRouter from "./user.route.js";
-
-export { userRouter };
+import eventRouter from "./event.route.js";
+export { userRouter, eventRouter };

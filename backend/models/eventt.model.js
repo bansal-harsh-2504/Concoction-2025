@@ -42,9 +42,13 @@ const eventSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    category: {
+      type: String,
+      enum: ["prehistoric", "medieval", "future"],
+      required: true,
+    },
   },
   { timestamps: true }
 );
-
 
 export const Eventt = mongoose.model("Eventt", eventSchema);

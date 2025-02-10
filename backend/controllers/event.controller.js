@@ -1,7 +1,5 @@
-import getDataUri from "../utils/datauri.js";
 import { Eventt } from "../models/eventt.model.js";
 import { User } from "../models/user.model.js";
-import { v2 as cloudinary } from "cloudinary";
 
 export const createEvent = async (req, res) => {
   try {
@@ -13,8 +11,9 @@ export const createEvent = async (req, res) => {
       time,
       rules,
       organizer,
-      images,
       activity,
+      category,
+      images,
     } = req.body;
 
     const userId = req.id;
@@ -32,12 +31,6 @@ export const createEvent = async (req, res) => {
         success: false,
       });
     }
-    const file = req.file;
-    let cloudResponse;
-    if (file) {
-      const fileUri = getDataUri(file);
-      cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-    }
     await Eventt.create({
       title,
       description,
@@ -46,8 +39,9 @@ export const createEvent = async (req, res) => {
       time,
       rules,
       organizer,
-      images: [cloudResponse?.secure_url],
+      images,
       activity,
+      category,
     });
 
     return res.status(201).json({
@@ -66,7 +60,8 @@ export const createEvent = async (req, res) => {
 
 export const getEvents = async (req, res) => {
   try {
-    const eventts = await Eventt.find();
+    const { category } = req.query;
+    const eventts = await Eventt.find({ category });
     return res.status(200).json({
       eventts,
       success: true,

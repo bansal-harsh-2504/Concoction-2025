@@ -1,12 +1,18 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import userRouter from "./routes/user.route";
+import { userRouter, eventRouter } from "./routes/export.routes.js";
+import connectToMongoDB from "./utils/db.js";
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/api/user/", userRouter);
@@ -18,5 +24,6 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
+  connectToMongoDB();
   console.log(`Server is running on port ${PORT}`);
 });
