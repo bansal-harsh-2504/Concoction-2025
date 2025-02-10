@@ -1,35 +1,24 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 const Historic = () => {
-  const events = [
-    {
-      id: 1,
-      title: "Cave Art Workshop",
-      image: "/images/cave.jpg",
-      date: "April 15, 2024",
-      description: "Learn the ancient techniques of cave painting",
-      location: "Prehistoric Gallery",
-      price: "$25",
-    },
-    {
-      id: 2,
-      title: "Stone Age Crafts",
-      image: "/images/stone.jpg",
-      date: "April 20, 2024",
-      description: "Hands-on experience with prehistoric tool making",
-      location: "Ancient Workshop",
-      price: "$30",
-    },
-    {
-      id: 3,
-      title: "Dinosaur Exhibition",
-      image: "/images/dino.jpg",
-      date: "April 25, 2024",
-      description: "Experience life-sized dinosaur models",
-      location: "Main Exhibition Hall",
-      price: "$20",
-    },
-  ];
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_EVENT_API_ENDPOINT}?category=prehistoric`
+        );
+        setEvents(response.data.eventts);
+      } catch (error) {
+        console.error("Error fetching historic events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   return (
     <div
@@ -60,29 +49,30 @@ const Historic = () => {
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {events.map((event) => (
-              <div
-                key={event.id}
-                className="bg-stone-800 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform duration-300 shadow-lg shadow-amber-900/20"
+              <Link
+                to={`/event/${event._id}`}
+                key={event._id}
+                className="block hover:transform hover:scale-105 transition-transform duration-300"
               >
-                <img
-                  src={event.image}
-                  alt={event.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-2xl font-[Cinzel] text-amber-200 mb-2">
-                    {event.title}
-                  </h3>
-                  <p className="text-amber-100/80 mb-2">{event.date}</p>
-                  <p className="text-gray-400 mb-3">{event.description}</p>
-                  <div className="border-t border-stone-700 pt-3">
-                    <p className="text-amber-100/80">📍 {event.location}</p>
-                    <p className="text-amber-200 font-semibold">
-                      {event.price}
-                    </p>
+                <div className="bg-stone-800 rounded-lg overflow-hidden shadow-lg shadow-amber-900/20">
+                  <img
+                    src={event.images[0]}
+                    alt={event.title}
+                    className="w-full h-48 object-cover"
+                  />
+
+                  <div className="p-6">
+                    <h3 className="text-2xl font-[Cinzel] text-amber-200 mb-2">
+                      {event.title}
+                    </h3>
+                    <p className="text-amber-100/80 mb-2">{event.date}</p>
+                    <p className="text-gray-400 mb-3">{event.description}</p>
+                    <div className="border-t border-stone-700 pt-3">
+                      <p className="text-amber-100/80">📍 {event.venue}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

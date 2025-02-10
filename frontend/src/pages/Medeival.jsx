@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "../styles/Medieval.css";
 
 const Medieval = () => {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_EVENT_API_ENDPOINT}?category=medieval`
+        );
+        setEvents(response.data.eventts);
+      } catch (error) {
+        console.error("Error fetching medieval events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
   return (
     <div className="medieval-page">
       <nav className="medieval-nav">
@@ -22,53 +40,23 @@ const Medieval = () => {
       <section className="events-section">
         <h2>Upcoming Events</h2>
         <div className="events-grid">
-          <Link to="/event/1" className="event-card">
-            <div className="event-image">
-              <img
-                src="/images/joust.jpg"
-                alt="Grand Jousting Tournament"
-              />
-            </div>
-            <div className="event-content">
-              <h3>Grand Jousting Tournament</h3>
-              <p className="event-date">June 15, 2025</p>
-              <p className="event-description">
-                Witness knights clash in an epic jousting tournament featuring the realm's finest warriors
-              </p>
-            </div>
-          </Link>
+          {events.map((event) => (
+            <Link
+              to={`/event/${event._id}`}
+              key={event._id}
+              className="event-card"
+            >
+              <div className="event-image">
+                <img src={event.images[0]} alt={event.title} />
+              </div>
+              <div className="event-content">
+                <h3>{event.title}</h3>
 
-          <Link to="/event/2" className="event-card">
-            <div className="event-image">
-              <img
-                src="/images/knight.jpg"
-                alt="Knight Costume Contest"
-              />
-            </div>
-            <div className="event-content">
-              <h3>Knight Costume Contest</h3>
-              <p className="event-date">July 20, 2025</p>
-              <p className="event-description">
-                Show off your finest medieval attire and compete for the title of Best Dressed Knight
-              </p>
-            </div>
-          </Link>
-
-          <Link to="/event/3" className="event-card">
-            <div className="event-image">
-              <img
-                src="/images/combat.jpg"
-                alt="Medieval Games & Combat"
-              />
-            </div>
-            <div className="event-content">
-              <h3>Medieval Games & Combat</h3>
-              <p className="event-date">August 5, 2025</p>
-              <p className="event-description">
-                Participate in archery contests, sword fighting demonstrations, and authentic combat training
-              </p>
-            </div>
-          </Link>
+                <p className="event-date">{event.date}</p>
+                <p className="event-description">{event.description}</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
     </div>
