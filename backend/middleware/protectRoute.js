@@ -4,10 +4,10 @@ import mongoose from "mongoose";
 
 const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    const { token } = req;
     if (!token) {
       return res.json({
-        message: "User not authenticated",
+        message: "Token is required",
         success: false,
       });
     }
@@ -17,7 +17,7 @@ const protectRoute = async (req, res, next) => {
     } catch (err) {
       if (err.name === "TokenExpiredError") {
         return res.json({
-          message: "User not Logged In",
+          message: "Token expired",
           success: false,
         });
       }
@@ -33,12 +33,12 @@ const protectRoute = async (req, res, next) => {
     req.id = decode.userId;
     const user = await User.findById(req.id);
     if (!user) {
-      res.json({
+      return res.json({
         message: "User not found. Invalid User!",
         success: false,
       });
-      return;
     }
+
     next();
   } catch (err) {
     console.log("Error in protect route middleware. Error: ", err);
