@@ -1,40 +1,121 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { useAuth } from "../../AuthContext";
 import "./Navbar.css";
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [selectedRole, setSelectedRole] = useState("participant");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { user, login, logout } = useAuth();
 
-  const handleLogin = () => {
-    setIsLogin(true);
+  const handleLogout = () => {
+    logout();
+    toast.success("Logged out successfully");
   };
 
-  const handleSignup = () => {
-    setIsLogin(false);
+  const handleLogin = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_USER_API_ENDPOINT}/login`,
+        {
+          email,
+          password,
+          role: selectedRole,
+        }
+      );
+
+      if (response.data.token) {
+        login(response.data.userId, response.data.token);
+        setShowModal(false);
+        setEmail("");
+        setPassword("");
+        toast.success("Successfully logged in!");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to login. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSignup = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_USER_API_ENDPOINT}/register`,
+        {
+          email,
+          password,
+          role: selectedRole,
+        }
+      );
+
+      if (response.data.token) {
+        login(response.data.userId, response.data.token);
+        setShowModal(false);
+        setEmail("");
+        setPassword("");
+        toast.success("Account created successfully!");
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      toast.error(
+        error.response?.data?.message ||
+          "Failed to create account. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isLogin) {
-      handleLogin();
+      await handleLogin();
     } else {
-      handleSignup();
+      await handleSignup();
     }
   };
 
   return (
     <>
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          success: {
+            style: {
+              background: "#4CAF50",
+              color: "white",
+            },
+          },
+          error: {
+            style: {
+              background: "#EF4444",
+              color: "white",
+            },
+          },
+          duration: 3000,
+        }}
+      />
       <nav className="flex justify-between items-center py-4 px-32 bg-gradient-to-r ">
         <div className="flex items-center gap-2">
           <h1 className="text-3xl font-bold text-[#090a0b]">FusionEra</h1>
         </div>
 
         <button
-          onClick={() => setShowModal(true)}
+          onClick={user.isLoggedIn ? handleLogout : () => setShowModal(true)}
           className="px-6 py-2 bg-[#2c2a2a] text-white font-semibold rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
         >
-          Get Started
+          {user.isLoggedIn ? "Log Out" : "Get Started"}
         </button>
       </nav>
 
@@ -108,8 +189,11 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <form className="space-y-4">
-                <button className="cursor-pointer w-full mb-4 border border-gray-300 rounded-lg py-2 px-4 flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
+              <form className="space-y-4" onSubmit={handleSubmit}>
+                <button
+                  type="button"
+                  className="cursor-pointer w-full mb-4 border border-gray-300 rounded-lg py-2 px-4 flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors"
+                >
                   <img
                     src="/images/google.png"
                     alt="Google logo"
@@ -134,6 +218,8 @@ const Navbar = () => {
                 <div>
                   <input
                     type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full border border-gray-300 rounded-lg py-2 px-4 focus:ring-2 focus:ring-[#000038] focus:border-transparent outline-none"
                     placeholder="johndoe@gmail.com"
                   />
@@ -142,16 +228,28 @@ const Navbar = () => {
                 <div className="relative">
                   <input
                     type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="w-full border border-gray-300 rounded-lg py-2 px-4 pr-10 focus:ring-2 focus:ring-[#000038] focus:border-transparent outline-none"
                     placeholder="********"
                   />
                 </div>
 
                 <button
-                  className="w-full py-2 bg-[#000038] text-white rounded-lg transition-colors"
-                  onClick={handleSubmit}
+                  type="submit"
+                  className="w-full py-2 bg-[#000038] text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isLoading}
                 >
-                  {isLogin ? "Login" : "Sign Up"}
+                  {isLoading ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      {isLogin ? "Logging in..." : "Signing up..."}
+                    </div>
+                  ) : isLogin ? (
+                    "Login"
+                  ) : (
+                    "Sign Up"
+                  )}
                 </button>
 
                 <div className="text-center text-sm">
