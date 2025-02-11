@@ -100,7 +100,8 @@ export const getEventById = async (req, res) => {
 
 export const voteEvent = async (req, res) => {
   try {
-    const { eventId, type } = req.params;
+    const { eventId } = req.params;
+    const { type } = req.body;
     const eventt = await Eventt.findById(eventId);
     if (!eventt) {
       return res.status(404).json({
@@ -121,6 +122,39 @@ export const voteEvent = async (req, res) => {
     });
   } catch (err) {
     console.log("Error in voteEvent controller. Error: ", err);
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
+  }
+};
+
+export const registerForEvent = async (req, res) => {
+  try {
+    const { eventId, userId } = req.body;
+    const eventt = await Eventt.findById(eventId);
+    if (!eventt || !userId) {
+      return res.status(404).json({
+        message: "Event or user not found",
+        success: false,
+      });
+    }
+    if (eventt.registeredParticipants.includes(userId)) {
+      return res.status(400).json({
+        message: "User already registered for this event",
+        success: false,
+      });
+    }
+
+    eventt.registeredParticipants.push(userId);
+
+    await eventt.save();
+    return res.status(200).json({
+      message: "Event registered successfully",
+      success: true,
+    });
+  } catch (err) {
+    console.log("Error in registerForEvent controller. Error: ", err);
     return res.status(500).json({
       message: "Internal server error",
       success: false,

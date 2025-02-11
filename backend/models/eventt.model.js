@@ -47,6 +47,11 @@ const eventSchema = new mongoose.Schema(
       enum: ["prehistoric", "medieval", "future"],
       required: true,
     },
+    registeredParticipants: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+      default: [],
+    },
   },
   { timestamps: true }
 );
