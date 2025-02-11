@@ -43,19 +43,19 @@ const Future = () => {
         }}
       >
         <div className="text-center text-white px-4">
-          <h1 className="text-6xl font-bold mb-4">Journey to the Future</h1>
-          <p className="text-xl">
+          <h1 className="text-6xl md:text-6xl text-4xl font-bold mb-4">Journey to the Future</h1>
+          <p className="text-lg md:text-xl">
             Experience tomorrow's wonders today through time travel
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-4xl font-bold text-center mb-12">
+      <div className="max-w-7xl mx-auto px-4 py-8 md:py-16">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12">
           Future Tech Events
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
           {events.map((event, index) => (
             <Link
               key={event._id || index}
@@ -65,19 +65,19 @@ const Future = () => {
               <div className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900 rounded-lg overflow-hidden border border-indigo-500/30">
                 <div className="event-image">
                   <img
-                    className="h-64 w-full object-cover"
+                    className="h-48 md:h-64 w-full object-cover"
                     src={event.images[0]}
                     alt={event.title}
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-white mb-2">
+                <div className="p-4 md:p-6">
+                  <h3 className="text-lg md:text-xl font-semibold text-white mb-2">
                     {event.title}
                   </h3>
-                  <p className="text-cyan-400 text-sm font-semibold mb-3">
+                  <p className="text-cyan-400 text-sm font-semibold mb-2 md:mb-3">
                     {event.date}
                   </p>
-                  <p className="text-gray-300">{event.description}</p>
+                  <p className="text-gray-300 text-sm md:text-base">{event.description}</p>
                 </div>
               </div>
             </Link>

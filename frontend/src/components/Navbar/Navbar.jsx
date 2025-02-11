@@ -114,14 +114,14 @@ const Navbar = () => {
           duration: 3000,
         }}
       />
-      <nav className="flex justify-between items-center py-4 px-32 bg-gradient-to-r ">
+      <nav className="flex justify-between items-center py-4 px-4 md:px-8 lg:px-32 bg-gradient-to-r">
         <div className="flex items-center gap-2">
-          <h1 className="text-3xl font-bold text-[#090a0b]">FusionEra</h1>
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#090a0b]">FusionEra</h1>
         </div>
 
         <button
           onClick={user.isLoggedIn ? handleLogout : () => setShowModal(true)}
-          className="px-6 py-2 bg-[#2c2a2a] text-white font-semibold rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+          className="px-4 md:px-6 py-1.5 md:py-2 bg-[#2c2a2a] text-white text-sm md:text-base font-semibold rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
         >
           {user.isLoggedIn ? "Log Out" : "Get Started"}
         </button>
@@ -129,8 +129,8 @@ const Navbar = () => {
 
       {showModal && (
         <div className="modal-overlay">
-          <div className="bg-[#fffff4] p-2 rounded-3xl shadow-xl w-[800px] flex overflow-hidden">
-            <div className="w-1/2 p-8 relative">
+          <div className="bg-[#fffff4] p-2 rounded-3xl shadow-xl w-[95%] md:w-[800px] mx-auto flex flex-col md:flex-row overflow-hidden">
+            <div className="w-full md:w-1/2 p-4 md:p-8 relative hidden md:block">
               <div className="h-full w-full flex items-center justify-center">
                 <img
                   src="/images/login.jpg"
@@ -139,7 +139,7 @@ const Navbar = () => {
               </div>
             </div>
 
-            <div className="w-1/2 p-8">
+            <div className="w-full md:w-1/2 p-4 md:p-8">
               <div className="flex justify-between mb-6">
                 <h2 className="text-2xl font-bold">
                   {isLogin ? "Log in" : "Sign Up"}

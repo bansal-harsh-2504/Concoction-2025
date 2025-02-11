@@ -9,18 +9,17 @@ function App() {
       <Navbar />
 
       <div className="max-w-4xl mx-auto text-center mt-20 px-4">
-        <h1 className="text-6xl font-serif leading-tight">
+        <h1 className="text-6xl font-serif leading-tight md:text-5xl sm:text-4xl">
           Fusion of Eras
           <br />
-          <span className="whitespace-nowrap">
-            {" "}
+          <span className="whitespace-normal">
             Travel Through Time and Beyond!
           </span>
         </h1>
 
-        <p className="mt-6 text-gray-600 text-lg">
+        <p className="mt-6 text-gray-600 text-lg md:text-base">
           Join us for unforgettable travel experiences tailored to
-          <br />
+          <br className="md:hidden" />
           your dreams and desires.
         </p>
         <button className="cursor-pointer mt-8 px-8 py-3 bg-[#2c2a2a] text-white rounded-full hover:bg-gray-800 transition">
@@ -28,12 +27,12 @@ function App() {
         </button>
       </div>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-3 gap-20 mt-16 px-4">
-        <div className="rounded-3xl overflow-hidden relative group h-[400px]">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 lg:gap-20 mt-16 px-4">
+        <div className="rounded-3xl overflow-hidden relative group h-[500px] md:h-[400px] w-full">
           <img
             src="/images/three.jpg"
             alt="Prehistoric Era"
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover object-center scale-[1.01]"
           />
 
           <div className="absolute inset-0"></div>
@@ -49,11 +48,11 @@ function App() {
           </div>
         </div>
 
-        <div className="rounded-3xl overflow-hidden relative group h-[400px]">
+        <div className="rounded-3xl overflow-hidden relative group h-[500px] md:h-[400px] w-full">
           <img
             src="/images/one.jpg"
             alt="Medieval Era"
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover object-center scale-[1.01]"
           />
 
           <div className="absolute inset-0"></div>
@@ -69,11 +68,11 @@ function App() {
           </div>
         </div>
 
-        <div className="rounded-3xl overflow-hidden relative group h-[400px]">
+        <div className="rounded-3xl overflow-hidden relative group h-[500px] md:h-[400px] w-full">
           <img
             src="/images/two.jpg"
             alt="Future Era"
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover object-center scale-[1.01]"
           />
           <div className="absolute inset-0"></div>
           <div className="absolute inset-0 z-10 flex flex-col justify-end p-6">
