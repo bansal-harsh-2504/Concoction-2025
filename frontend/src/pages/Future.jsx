@@ -43,7 +43,7 @@ const Future = () => {
         }}
       >
         <div className="text-center text-white px-4">
-          <h1 className="text-6xl md:text-6xl text-4xl font-bold mb-4">Journey to the Future</h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">Journey to the Future</h1>
           <p className="text-lg md:text-xl">
             Experience tomorrow's wonders today through time travel
           </p>
