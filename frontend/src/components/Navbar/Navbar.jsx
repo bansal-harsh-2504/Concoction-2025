@@ -210,7 +210,10 @@ const Navbar = () => {
                   Continue with Google
                 </button>
 
-                <button className="cursor-pointer w-full mb-4 border border-gray-300 rounded-lg py-2 px-4 flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors pr-2">
+                <button
+                  type="button"
+                  className="cursor-pointer w-full mb-4 border border-gray-300 rounded-lg py-2 px-4 flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors pr-2"
+                >
                   <img
                     src="/images/linked.png"
                     alt="LinkedIn logo"
