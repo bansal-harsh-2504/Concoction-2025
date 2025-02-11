@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 const protectRoute = async (req, res, next) => {
   try {
-    const { token } = req;
+    const { token } = req.body;
     if (!token) {
       return res.json({
         message: "Token is required",

@@ -11,8 +11,8 @@ import protectRoute from "../middleware/protectRoute.js";
 const eventRouter = express.Router();
 
 eventRouter.route("/create").post(protectRoute, createEvent);
-eventRouter.route("/:eventId/:type").get(protectRoute, voteEvent);
 eventRouter.route("/:eventId").get(getEventById);
+eventRouter.route("/:eventId/:type").post(protectRoute, voteEvent);
 eventRouter.route("/").get(getEvents);
 
 export default eventRouter;
