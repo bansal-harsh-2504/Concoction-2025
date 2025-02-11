@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "../AuthContext";
 
 const Future = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
-  const { user } = useAuth();
 
   useEffect(() => {
     const fetchEvents = async () => {

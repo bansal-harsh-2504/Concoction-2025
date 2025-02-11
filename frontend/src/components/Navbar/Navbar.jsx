@@ -31,7 +31,11 @@ const Navbar = () => {
       );
 
       if (response.data.token) {
-        login(response.data.userId, response.data.token);
+        login(
+          response.data.userId,
+          response.data.token,
+          response.data.registeredEvents
+        );
         setShowModal(false);
         setEmail("");
         setPassword("");
@@ -60,7 +64,11 @@ const Navbar = () => {
       );
 
       if (response.data.token) {
-        login(response.data.userId, response.data.token);
+        login(
+          response.data.userId,
+          response.data.token,
+          response.data.registeredEvents
+        );
         setShowModal(false);
         setEmail("");
         setPassword("");
