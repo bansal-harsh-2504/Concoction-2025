@@ -55,9 +55,7 @@ const HistoricEvent = ({ event }) => {
 
     setIsVoting(true);
     try {
-      const endpoint = hasVoted
-        ? `${import.meta.env.VITE_EVENT_API_ENDPOINT}/vote/${event._id}`
-        : `${import.meta.env.VITE_EVENT_API_ENDPOINT}/vote/${event._id}`;
+      const endpoint = `${import.meta.env.VITE_EVENT_API_ENDPOINT}/vote/${event._id}`;
       await axios.post(endpoint, {
         eventId: event._id,
         userId: user.id,
@@ -85,30 +83,29 @@ const HistoricEvent = ({ event }) => {
         </Link>
       </nav>
 
-      <div className="p-8">
-        <div className="flex gap-8 mb-8">
+      <div className="p-4 md:p-8">
+        <div className="flex flex-col md:flex-row gap-8 mb-8">
           <img
             src={event.images[0]}
             alt={event.title}
-            className="w-[45%] h-auto border-8 border-amber-400 rounded-lg object-cover"
+            className="w-full md:w-[45%] h-auto border-8 border-amber-400 rounded-lg object-cover"
           />
           <div className="flex-1">
-            <h1 className="text-5xl text-amber-400 uppercase mb-4 font-bold tracking-wider shadow-text">
+            <h1 className="text-3xl md:text-5xl text-amber-400 uppercase mb-4 font-bold tracking-wider shadow-text">
               {event.title}
             </h1>
-            <p className="text-xl leading-relaxed mb-6">{event.description}</p>
+            <p className="text-base md:text-xl leading-relaxed mb-6">
+              {event.description}
+            </p>
             <div className="flex items-center gap-2 mb-4">
               <span className="text-lg">{votes} Votes</span>
-              {user && (
+              {user ? (
                 <button
                   disabled={isVoting}
                   onClick={handleVote}
-                  className={`flex items-center gap-1 p-2 rounded transition-all duration-300 
-                    ${
-                      isVoting
-                        ? "cursor-not-allowed opacity-50"
-                        : "hover:scale-110"
-                    }`}
+                  className={`flex items-center gap-1 p-2 rounded transition-all duration-300 ${
+                    isVoting ? "cursor-not-allowed opacity-50" : "hover:scale-110"
+                  }`}
                 >
                   <ThumbsUp
                     className={`w-5 h-5 ${
@@ -116,6 +113,8 @@ const HistoricEvent = ({ event }) => {
                     } text-amber-400`}
                   />
                 </button>
+              ) : (
+                <ThumbsUp className="w-5 h-5 text-amber-400" />
               )}
             </div>
             <button
@@ -126,7 +125,7 @@ const HistoricEvent = ({ event }) => {
               }
               title={!user ? "Login to register" : ""}
               onClick={handleRegister}
-              className={`px-6 py-3 text-lg uppercase rounded transition-all duration-300 
+              className={`w-full md:w-auto px-4 md:px-6 py-2 md:py-3 text-base md:text-lg uppercase rounded transition-all duration-300 
                 ${
                   !user
                     ? "bg-gray-600 text-gray-400 cursor-not-allowed"
@@ -145,49 +144,46 @@ const HistoricEvent = ({ event }) => {
         </div>
 
         <div className="text-center my-8">
-          <div className="inline-block bg-stone-900 text-amber-400 text-6xl font-mono p-4 rounded-lg tracking-[0.2em] shadow-[0_0_15px_rgba(251,191,36,0.3)] border border-amber-400/30">
+          <div className="inline-block bg-stone-900 text-amber-400 text-4xl sm:text-5xl md:text-6xl font-mono p-3 sm:p-4 md:p-6 rounded-lg tracking-[0.2em] shadow-[0_0_15px_rgba(251,191,36,0.3)] border border-amber-400/30">
             {formatTime(timeLeft)}
           </div>
         </div>
 
-        <div className="bg-amber-400/20 p-8 rounded-lg">
-          <div className="flex justify-center gap-4 mb-8">
+        <div className="bg-amber-400/20 p-4 md:p-8 rounded-lg">
+          <div className="flex flex-col md:flex-row justify-center gap-4 mb-8">
             <button
               onClick={() => setActiveSection("rules")}
-              className={`px-6 py-3 text-lg uppercase transition-all duration-300 border-2 border-amber-400 rounded hover:-translate-y-1 hover:bg-amber-400 hover:text-stone-900
-                ${
-                  activeSection === "rules"
-                    ? "bg-amber-400 text-stone-900"
-                    : "bg-stone-900"
-                }`}
+              className={`w-full md:w-auto px-6 py-3 text-lg uppercase transition-all duration-300 border-2 border-amber-400 rounded hover:-translate-y-1 hover:bg-amber-400 hover:text-stone-900 ${
+                activeSection === "rules"
+                  ? "bg-amber-400 text-stone-900"
+                  : "bg-stone-900"
+              }`}
             >
               Rules
             </button>
             <button
               onClick={() => setActiveSection("info")}
-              className={`px-6 py-3 text-lg uppercase transition-all duration-300 border-2 border-amber-400 rounded hover:-translate-y-1 hover:bg-amber-400 hover:text-stone-900
-                ${
-                  activeSection === "info"
-                    ? "bg-amber-400 text-stone-900"
-                    : "bg-stone-900"
-                }`}
+              className={`w-full md:w-auto px-6 py-3 text-lg uppercase transition-all duration-300 border-2 border-amber-400 rounded hover:-translate-y-1 hover:bg-amber-400 hover:text-stone-900 ${
+                activeSection === "info"
+                  ? "bg-amber-400 text-stone-900"
+                  : "bg-stone-900"
+              }`}
             >
               Event Information
             </button>
             <button
               onClick={() => setActiveSection("activities")}
-              className={`px-6 py-3 text-lg uppercase transition-all duration-300 border-2 border-amber-400 rounded hover:-translate-y-1 hover:bg-amber-400 hover:text-stone-900
-                ${
-                  activeSection === "activities"
-                    ? "bg-amber-400 text-stone-900"
-                    : "bg-stone-900"
-                }`}
+              className={`w-full md:w-auto px-6 py-3 text-lg uppercase transition-all duration-300 border-2 border-amber-400 rounded hover:-translate-y-1 hover:bg-amber-400 hover:text-stone-900 ${
+                activeSection === "activities"
+                  ? "bg-amber-400 text-stone-900"
+                  : "bg-stone-900"
+              }`}
             >
               Activities
             </button>
           </div>
 
-          <div className="bg-stone-900/70 p-8 rounded-lg text-lg leading-relaxed">
+          <div className="bg-stone-900/70 p-4 md:p-8 rounded-lg text-base md:text-lg leading-relaxed">
             {activeSection === "rules" && (
               <div className="space-y-4">
                 <ol className="list-decimal list-inside">
