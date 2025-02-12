@@ -148,7 +148,7 @@ const MedievalEvent = ({ event }) => {
         </div>
 
         <div className="text-center my-8">
-          <div className="inline-block bg-[#2B1D0E]/90 text-[#d4af37] text-6xl font-mono p-4 rounded-lg tracking-[0.2em] shadow-[2px_2px_4px_rgba(0,0,0,0.5)] border-2 border-[#8b4513]">
+          <div className="inline-block bg-[#2B1D0E]/90 text-[#d4af37] text-3xl md:text-6xl font-mono p-4 rounded-lg tracking-[0.2em] shadow-[2px_2px_4px_rgba(0,0,0,0.5)] border-2 border-[#8b4513]">
             {formatTime(timeLeft)}
           </div>
         </div>
