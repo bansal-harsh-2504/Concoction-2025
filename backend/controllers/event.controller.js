@@ -102,6 +102,8 @@ export const voteEvent = async (req, res) => {
   try {
     const { eventId } = req.params;
     const { type } = req.body;
+    const userId = req.id;
+
     const eventt = await Eventt.findById(eventId);
     if (!eventt) {
       return res.status(404).json({
@@ -109,13 +111,34 @@ export const voteEvent = async (req, res) => {
         success: false,
       });
     }
-    if (type === "up") {
-      eventt.votes++;
-    } else if (type === "down") {
-      eventt.votes--;
-    }
-    await eventt.save();
 
+    const userVoteIndex = eventt.voters.findIndex(
+      (vote) => vote.userId.toString() === userId
+    );
+
+    if (type === "up") {
+      if (userVoteIndex === -1) {
+        eventt.votes++;
+        eventt.voters.push({ userId, voteType: "up" });
+      } else {
+        return res.status(400).json({
+          message: "You have already voted for this event",
+          success: false,
+        });
+      }
+    } else if (type === "down") {
+      if (userVoteIndex === -1) {
+        return res.status(400).json({
+          message: "You haven't voted for this event yet",
+          success: false,
+        });
+      } else {
+        eventt.votes--;
+        eventt.voters.splice(userVoteIndex, 1);
+      }
+    }
+
+    await eventt.save();
     return res.status(200).json({
       message: "Event voted successfully",
       success: true,

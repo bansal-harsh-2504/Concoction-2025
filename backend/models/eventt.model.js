@@ -52,6 +52,11 @@ const eventSchema = new mongoose.Schema(
       ref: "User",
       default: [],
     },
+    voters: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+      default: [],
+    },
   },
   { timestamps: true }
 );
