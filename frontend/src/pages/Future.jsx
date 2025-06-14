@@ -43,7 +43,9 @@ const Future = () => {
         }}
       >
         <div className="text-center text-white px-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Journey to the Future</h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">
+            Journey to the Future
+          </h1>
           <p className="text-lg md:text-xl">
             Experience tomorrow's wonders today through time travel
           </p>
@@ -56,7 +58,7 @@ const Future = () => {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-          {events.map((event, index) => (
+          {events?.map((event, index) => (
             <Link
               key={event._id || index}
               to={`/event/${event._id}`}
@@ -77,7 +79,9 @@ const Future = () => {
                   <p className="text-cyan-400 text-sm font-semibold mb-2 md:mb-3">
                     {event.date}
                   </p>
-                  <p className="text-gray-300 text-sm md:text-base">{event.description}</p>
+                  <p className="text-gray-300 text-sm md:text-base">
+                    {event.description}
+                  </p>
                 </div>
               </div>
             </Link>

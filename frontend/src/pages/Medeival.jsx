@@ -40,7 +40,7 @@ const Medieval = () => {
       <section className="events-section">
         <h2>Upcoming Events</h2>
         <div className="events-grid">
-          {events.map((event) => (
+          {events?.map((event) => (
             <Link
               to={`/event/${event._id}`}
               key={event._id}

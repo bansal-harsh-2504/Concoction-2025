@@ -155,7 +155,7 @@ const MedievalEvent = ({ event }) => {
 
         <div className="bg-[#2B1D0E]/90 p-8 rounded-lg">
           <div className="flex flex-col md:flex-row justify-center gap-4 mb-8">
-            {["rules", "info", "activities"].map((section) => (
+            {["rules", "info", "activities"]?.map((section) => (
               <button
                 key={section}
                 onClick={() => setActiveSection(section)}

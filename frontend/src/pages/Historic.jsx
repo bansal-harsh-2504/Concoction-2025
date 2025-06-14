@@ -8,7 +8,6 @@ const Historic = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        console.log( `${import.meta.env.VITE_EVENT_API_ENDPOINT}?category=prehistoric`);
         const response = await axios.get(
           `${import.meta.env.VITE_EVENT_API_ENDPOINT}?category=prehistoric`
         );
@@ -50,7 +49,7 @@ const Historic = () => {
         </h2>
         <div className="container mx-auto px-2 sm:px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {events.map((event) => (
+            {events?.map((event) => (
               <Link
                 to={`/event/${event._id}`}
                 key={event._id}
@@ -67,10 +66,16 @@ const Historic = () => {
                     <h3 className="text-xl sm:text-2xl font-[Cinzel] text-amber-200 mb-2">
                       {event.title}
                     </h3>
-                    <p className="text-sm sm:text-base text-amber-100/80 mb-2">{event.date}</p>
-                    <p className="text-sm sm:text-base text-gray-400 mb-3">{event.description}</p>
+                    <p className="text-sm sm:text-base text-amber-100/80 mb-2">
+                      {event.date}
+                    </p>
+                    <p className="text-sm sm:text-base text-gray-400 mb-3">
+                      {event.description}
+                    </p>
                     <div className="border-t border-stone-700 pt-3">
-                      <p className="text-sm sm:text-base text-amber-100/80">📍 {event.venue}</p>
+                      <p className="text-sm sm:text-base text-amber-100/80">
+                        📍 {event.venue}
+                      </p>
                     </div>
                   </div>
                 </div>
