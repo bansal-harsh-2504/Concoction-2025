@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import { userRouter, eventRouter } from "./routes/export.routes.js";
 import connectToMongoDB from "./utils/db.js";
+import { User } from "./models/user.model.js";
+import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
@@ -17,6 +18,16 @@ app.use(express.json());
 
 app.use("/api/user/", userRouter);
 app.use("/api/event/", eventRouter);
+
+// Health check
+app.get("/health", async (req, res) => {
+  try {
+    await User.findOne({}, "_id").lean();
+    res.status(200).send("OK");
+  } catch (err) {
+    res.status(500).send("MongoDB connection failed");
+  }
+});
 
 app.get("/", (req, res) => {
   res.send("API Working");
